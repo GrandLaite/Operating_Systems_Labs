@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Лабораторная работа №5 — Корректная версия (с дополнительным заданием)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #orderContainer {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    select, input[type="text"], input[type="button"] {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #aaa;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    caption {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    tfoot input[type="button"] {
+      font-size: 14px;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="orderContainer">
+  <!-- Выпадающий список продуктов -->
+  <select id="lstProducts">
+    <optgroup label="Фрукты">
+      <option value="15">Апельсины - 15 руб.</option>
+      <option value="10">Яблоки - 10 руб.</option>
+      <option value="12">Бананы - 12 руб.</option>
+    </optgroup>
+    <optgroup label="Овощи">
+      <option value="5">Картофель - 5 руб.</option>
+      <option value="8">Морковь - 8 руб.</option>
+      <option value="20">Помидоры - 20 руб.</option>
+    </optgroup>
+  </select>
+
+  <!-- Поле для ввода количества -->
+  <input type="text" id="txtQty" placeholder="Количество">
+
+  <!-- Кнопка "Добавить в корзину" -->
+  <input type="button" value="Добавить в корзину" onclick="AddToCart()">
+
+  <!-- Таблица заказа -->
+  <table id="tblOrder">
+    <caption>Состав заказа</caption>
+    <thead>
+      <tr>
+        <!-- Чекбокс для выделения всех позиций -->
+        <th><input type="checkbox" onclick="ToggleCheck(this)"></th>
+        <th>Продукт</th>
+        <th>Цена (руб.)</th>
+        <th>Количество</th>
+        <th>Сумма (руб.)</th>
+        <th>Действие</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Динамически добавляемые строки заказа будут здесь -->
+    </tbody>
+    <tfoot>
+      <tr>
+        <!-- Перекрываем первые две колонки (чекбокс, продукт) -->
+        <td colspan="2">Итого:</td>
+        <!-- Пустая ячейка, чтобы выровнять столбец "Цена" -->
+        <td></td>
+        <!-- Под колонкой "Количество" -->
+        <td id="totalQty"></td>
+        <!-- Под колонкой "Сумма" -->
+        <td id="totalAmount"></td>
+        <!-- Под колонкой "Действие" -->
+        <td>
+          <input type="button" value="Удалить отмеченные" onclick="RemoveSelected()">
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<script>
+  // Глобальный объект для хранения количества по каждому продукту:
+  // cart = { "Название продукта": число, ... }
+  var cart = {};
+
+  // Ссылки на элементы
+  var tbl = document.getElementById('tblOrder');
+  var oList = document.getElementById('lstProducts');
+
+  /*
+   * Функция для поиска строки в таблице по названию продукта
+   * Возвращает саму строку (HTMLElement) или null, если не найдена.
+   */
+  function findRowByProduct(productName) {
+    var rows = tbl.tBodies[0].rows;
+    for (var i = 0; i < rows.length; i++) {
+      // Название продукта в таблице хранится в ячейке с индексом 1
+      if (rows[i].cells[1].innerHTML === productName) {
+        return rows[i];
+      }
+    }
+    return null;
+  }
+
+  /* Добавляем пункт в корзину / обновляем имеющийся */
+  function AddToCart() {
+    var qty = document.getElementById('txtQty').value;
+    // Проверка, является ли введённое значение числом
+    if (parseFloat(qty) != qty) {
+      qty = 1;
+    }
+    qty = parseFloat(qty);
+
+    // Получаем выбранный продукт
+    var selectedIndex = oList.selectedIndex;
+    var productText = oList.options[selectedIndex].text; // Пример: "Апельсины - 15 руб."
+    // Можно выделить только название (до " - "), но здесь оставим как есть
+    // Если нужно именно название, можно сделать:
+    // var productName = productText.split(' - ')[0];
+    // Однако для наглядности оставим productText целиком ключом в cart.
+
+    var productName = productText; 
+    var price = parseFloat(oList.value); // Значение value тега <option>
+
+    // Если продукт уже в cart, увеличиваем количество
+    if (cart[productName]) {
+      cart[productName] += qty;
+
+      // Находим соответствующую строку и обновляем её
+      var existingRow = findRowByProduct(productName);
+      if (existingRow) {
+        existingRow.cells[3].innerHTML = cart[productName]; // обновили количество
+        var newSum = price * cart[productName];
+        existingRow.cells[4].innerHTML = newSum.toFixed(2); // обновили сумму
+      }
+    } else {
+      // Если продукта нет в cart, добавляем его
+      cart[productName] = qty;
+
+      // Создаём новую строку в таблице
+      var newRow = tbl.tBodies[0].insertRow(-1);
+
+      // 0-я ячейка: чекбокс
+      var cell0 = newRow.insertCell(0);
+      cell0.innerHTML = '<input type="checkbox">';
+
+      // 1-я ячейка: наименование продукта
+      var cell1 = newRow.insertCell(1);
+      cell1.innerHTML = productName;
+
+      // 2-я ячейка: цена
+      var cell2 = newRow.insertCell(2);
+      cell2.innerHTML = price.toFixed(2);
+
+      // 3-я ячейка: количество
+      var cell3 = newRow.insertCell(3);
+      cell3.innerHTML = qty;
+
+      // 4-я ячейка: сумма
+      var cell4 = newRow.insertCell(4);
+      cell4.innerHTML = (price * qty).toFixed(2);
+
+      // 5-я ячейка: кнопка "Удалить"
+      var cell5 = newRow.insertCell(5);
+      cell5.innerHTML = '<input type="button" value="Удалить" onclick="RemoveProduct(this)">';
+    }
+
+    // Пересчитываем итоги
+    Calculate();
+  }
+
+  /* Пересчёт итогов (количество и сумма) */
+  function Calculate() {
+    var totalQty = 0;
+    var totalSum = 0;
+
+    // Можно пересчитывать напрямую по cart,
+    // но для наглядности оставим перебор строк в таблице (как в исходном коде):
+    var rows = tbl.tBodies[0].rows;
+    for (var i = 0; i < rows.length; i++) {
+      // Количество (ячейка с индексом 3)
+      var qty = parseFloat(rows[i].cells[3].innerHTML);
+      // Сумма (ячейка с индексом 4)
+      var sum = parseFloat(rows[i].cells[4].innerHTML);
+
+      totalQty += qty;
+      totalSum += sum;
+    }
+
+    // Заполняем ячейки "Итого" в футере
+    document.getElementById('totalQty').innerHTML = totalQty;
+    document.getElementById('totalAmount').innerHTML = totalSum.toFixed(2);
+  }
+
+  /* Удаление конкретного продукта по кнопке "Удалить" */
+  function RemoveProduct(elem) {
+    // Находим строку, где находится нажатая кнопка
+    var row = elem.parentNode.parentNode;
+    // Определяем название продукта (ячейка с индексом 1)
+    var productName = row.cells[1].innerHTML;
+
+    // Удаляем запись из cart
+    delete cart[productName];
+
+    // Удаляем строку из таблицы
+    row.parentNode.removeChild(row);
+
+    // Пересчитываем итоги
+    Calculate();
+  }
+
+  /* Удаление отмеченных (чекбоксом) строк */
+  function RemoveSelected() {
+    // Получаем все input-элементы в tbody
+    var inputs = tbl.tBodies[0].getElementsByTagName('input');
+    var i = 0;
+    // Идём через while, т.к. длина inputs будет меняться при удалении строк
+    while (i < inputs.length) {
+      if (inputs[i].type === 'checkbox' && inputs[i].checked) {
+        // Удаляем продукт так же, как в RemoveProduct
+        var row = inputs[i].parentNode.parentNode;
+        var productName = row.cells[1].innerHTML;
+        delete cart[productName];
+        row.parentNode.removeChild(row);
+        // Не увеличиваем i, так как inputs "сдвинутся" после удаления
+      } else {
+        i++;
+      }
+    }
+    // Пересчитываем итоги
+    Calculate();
+  }
+
+  /* Отметить/снять отметку у всех чекбоксов в tbody */
+  function ToggleCheck(source) {
+    var inputs = tbl.tBodies[0].getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i].type === 'checkbox') {
+        inputs[i].checked = source.checked;
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

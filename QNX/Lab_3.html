@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Трёхколоночный макет</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #Wrapper {
+      width: 780px;             
+      margin: 0 auto;            
+      background: url('background.png') repeat-y; 
+      overflow: hidden;          
+    }
+
+    #header {
+      width: 100%;
+      background: url('nebo.png') no-repeat center center; 
+    }
+
+    #header h1 {
+      margin: 0;
+      padding: 15px;
+      color: #003366;
+      font-size: 24px;
+      font-family: sans-serif;
+    }
+
+    #MainMenu {
+      float: left;
+      width: 150px;     
+      list-style: none;
+      background: none; 
+    }
+    #MainMenu li a {
+      display: block;
+      padding: 8px 10px;
+      text-decoration: none;
+      color: #fff;        
+      font-weight: bold;
+    }
+    #MainMenu li a:hover {
+      background-color: #28517A; 
+    }
+
+    #main {
+      float: left;
+      width: 360px;      
+      padding: 10px;
+      background: none;   
+      font-family: sans-serif;
+      color: #000;
+    }
+    #main h1 {
+      color: #003366;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #main p:first-letter {
+      float: left;
+      font-size: 300%;
+      color: #3399ff;
+      margin-right: 5px;
+      line-height: 1;
+    }
+
+    #main hr {
+      width: 50%;
+      margin: 10px auto;
+      border: 0;
+      border-top: 2px solid #003366;
+      margin-bottom: 10px;
+    }
+
+    #right {
+      float: left;
+      width: 270px;       
+      padding: 10px;
+      background: none;
+      font-family: sans-serif;
+      color: #000;
+    }
+    #right h1 {
+      font-size: 16px;
+      text-align: center;
+      margin: 5px 0;
+      color: #fff;       
+    }
+
+    #footer {
+      clear: both;          
+      width: 100%;
+      background-color: #003366; 
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      font-family: sans-serif;
+    }
+    #footer a {
+      font-weight: bold;
+      color: #ddd;            
+      text-decoration: underline;
+    }
+    #footer a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<div id="Wrapper">
+  <div id="header">
+    <h1>Заголовок страницы (header)</h1>
+  </div>
+
+  <ul id="MainMenu">
+    <li><a href="#">Популярные блюда</a></li>
+    <li><a href="#">Подарки к празднику</a></li>
+    <li><a href="#">Выбор по цене</a></li>
+    <li><a href="#">Фрукты и Овощи</a></li>
+    <li><a href="#">Цветы</a></li>
+    <li><a href="#">Корпоративные подарки</a></li>
+  </ul>
+
+  <div id="main">
+    <h1>Центральная колонка</h1>
+    <p>Donec tortor est, viverra ac porta non, porta sit amet elit. Fusce tortor neque, congue a sagittis at, lobortis vel sapien. Nulla fringilla tellus ac neque commodo at lacinia dui pellentesque.</p>
+    <hr>
+    <p>Praesent sit amet sapien justo, quis sagittis nisi. Donec eu turpis est, ut commodo risus. Sed ultrices ultricies nisi. Vestibulum ante ipsum primis in faucibus orci luctus.</p>
+    <hr>
+    <p>Curabitur at erat nec sapien imperdiet ultrices. Pellentesque eget neque odio. Pellentesque habitant morbi tristique senectus et netus.</p>
+    <hr>
+    <p>Quisque vehicula lacinia fermentum. Vestibulum vehicula nec tellus sed ultrices. Aliquam erat volutpat. Proin maximus at erat non rhoncus.</p>
+    <hr>
+    <p>Sed eget justo sed ante dignissim ornare. Mauris egestas aliquam luctus. Vestibulum pellentesque tristique euismod.</p>
+  </div>
+
+  <div id="right">
+    <h1>Правая колонка</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dapibus laoreet nibh, vel tincidunt elit tristique eu.</p>
+
+    <h1>Proin vel tortor</h1>
+    <p>Aenean pretium egestas fermentum. Proin est enim, pretium vitae tempor vitae, placerat eu diam.</p>
+    <p>In hac habitasse platea dictumst. Donec hendrerit fringilla mi, ac mattis eros aliquet vel.</p>
+  </div>
+
+  <div id="footer">
+    <address>
+      <a href="mailto:webmaster@site.com">Webmaster</a>
+    </address>
+  </div>
+</div>
+
+</body>
+</html>

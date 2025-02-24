@@ -1,0 +1,167 @@
+Внутри <head> ввести заголовок (<title>).
+Ввести открывающий тег <style>.
+После закрытия > редактор автоматически добавит </style>.
+Добавить неупорядоченный список (<ul>) с id="MainMenu".
+Вложить в него элементы <li> с ссылками (<a>).
+Внутри некоторых <li> создать вложенные списки (<ul>), содержащие подкатегории.
+Придумать свои названия категорий и ссылок.
+Убедиться, что у внешнего списка стоит id="MainMenu".
+
+Добавить в таблицу стилей правило:
+
+#MainMenu {
+    width: 250px;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    background: #444;
+}
+Добавить правило для пунктов меню:
+#MainMenu > li {
+    list-style-type: none;
+    position: relative;
+    background: #666;
+    padding: 15px;
+    border-bottom: 2px solid #888;
+}
+Настроить ссылки в меню:
+#MainMenu > li a {
+    text-decoration: none;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: block;
+}
+Добавить изменение цвета при наведении:
+#MainMenu li:hover {
+    background: #555;
+}
+Скрыть вложенные списки:
+#MainMenu li ul {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: #777;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    min-width: 180px;
+}
+Сделать так, чтобы подкатегории появлялись при наведении:
+#MainMenu li:hover ul {
+    display: block;
+}
+Оформить вложенные элементы списка:
+#MainMenu li ul li {
+    padding: 10px;
+    background: #777;
+    border-bottom: 1px solid #999;
+}
+Настроить ссылки внутри вложенных пунктов:
+#MainMenu li ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+Изменение цвета вложенного пункта при наведении:
+#MainMenu li ul li:hover {
+    background: #888;
+}
+
+Вертикальное меню с вложенными подкатегориями
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вертикальное меню</title>
+    <style>
+        #MainMenu {
+            width: 250px;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+            background: #444;
+        }
+
+        #MainMenu > li {
+            list-style-type: none;
+            position: relative;
+            background: #666;
+            padding: 15px;
+            border-bottom: 2px solid #888;
+        }
+
+        #MainMenu > li a {
+            text-decoration: none;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: block;
+        }
+
+        #MainMenu li:hover {
+            background: #555;
+        }
+
+        #MainMenu li ul {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: #777;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+            min-width: 180px;
+        }
+
+        #MainMenu li:hover ul {
+            display: block;
+        }
+
+        #MainMenu li ul li {
+            padding: 10px;
+            background: #777;
+            border-bottom: 1px solid #999;
+        }
+
+        #MainMenu li ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        #MainMenu li ul li:hover {
+            background: #888;
+        }
+    </style>
+</head>
+<body>
+
+<ul id="MainMenu">
+    <li><a href="#">Популярные блюда</a>
+        <ul>
+            <li><a href="#">Итальянская кухня</a></li>
+            <li><a href="#">Закуски</a></li>
+            <li><a href="#">Сласти</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Подарки</a>
+        <ul>
+            <li><a href="#">Юбилеи</a></li>
+            <li><a href="#">Малышам</a></li>
+            <li><a href="#">День рождения</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Выбор по цене</a>
+        <ul>
+            <li><a href="#">Меньше 1000 руб</a></li>
+            <li><a href="#">От 1000 до 1500 руб</a></li>
+            <li><a href="#">От 1500 до 2000 руб</a></li>
+        </ul>
+    </li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Калькулятор</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f5f5f5;
+    }
+
+    .calculator {
+      border: 1px solid #ccc;
+      width: 230px; 
+      padding: 10px;
+      background-color: #fff;
+    }
+
+    #display {
+      width: 100%;
+      height: 40px;
+      font-size: 16px;
+      text-align: right;
+      padding-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 50px);
+      grid-gap: 5px;
+      justify-content: center;
+    }
+
+    .buttons button {
+      font-size: 16px;
+      padding: 10px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    .buttons button:active {
+      background-color: #ddd;
+    }
+
+    .operator {
+      background-color: #f9f9f9;
+    }
+
+    .equals {
+      background-color: #ffbf00;
+    }
+
+    .clear {
+      background-color: #f88;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" id="display" disabled />
+  <div class="buttons">
+    <button class="num">7</button>
+    <button class="num">8</button>
+    <button class="num">9</button>
+    <button class="operator">/</button>
+    
+    <button class="num">4</button>
+    <button class="num">5</button>
+    <button class="num">6</button>
+    <button class="operator">x</button>
+    
+    <button class="num">1</button>
+    <button class="num">2</button>
+    <button class="num">3</button>
+    <button class="operator">-</button>
+    
+    <button class="num">0</button>
+    <button class="clear">CE</button>
+    <button class="equals">=</button>
+    <button class="operator">+</button>
+  </div>
+</div>
+
+<script>
+  // Получаем элементы
+  const display = document.getElementById('display');
+  const numButtons = document.querySelectorAll('.num');
+  const operatorButtons = document.querySelectorAll('.operator');
+  const equalsButton = document.querySelector('.equals');
+  const clearButton = document.querySelector('.clear');
+
+  let currentValue = '';
+  let previousValue = '';
+  let operator = null;
+
+  // Обработчик для цифр
+  numButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentValue += btn.textContent;
+      display.value = currentValue;
+    });
+  });
+
+  // Обработчик для операторов
+  operatorButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (currentValue && previousValue && operator) {
+        calculate();
+      }
+      operator = btn.textContent;
+      previousValue = currentValue;
+      currentValue = '';
+    });
+  });
+
+  // Кнопка =
+  equalsButton.addEventListener('click', () => {
+    if (currentValue && previousValue && operator) {
+      calculate();
+    }
+  });
+
+  // Кнопка CE (очистка)
+  clearButton.addEventListener('click', () => {
+    currentValue = '';
+    previousValue = '';
+    operator = null;
+    display.value = '';
+  });
+
+  // Функция для вычисления
+  function calculate() {
+    let result = 0;
+    const prev = parseFloat(previousValue);
+    const curr = parseFloat(currentValue);
+
+    switch(operator) {
+      case '+':
+        result = prev + curr;
+        break;
+      case '-':
+        result = prev - curr;
+        break;
+      case 'x':
+        result = prev * curr;
+        break;
+      case '/':
+        if (curr === 0) {
+          alert('Деление на ноль невозможно!');
+          result = prev;
+        } else {
+          result = prev / curr;
+        }
+        break;
+    }
+
+    display.value = result;
+    previousValue = result.toString();
+    currentValue = '';
+    operator = null;
+  }
+</script>
+
+</body>
+</html>
